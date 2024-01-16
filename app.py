@@ -2,6 +2,8 @@ import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
+from langchain.vectorstores import FAISS
+
 
 def get_pdf_text(pdf_docs):
     text=""
@@ -21,6 +23,12 @@ def get_chunks(raw_text):
     chunks=text_splittor.split_text(raw_text)
     return chunks
 
+def get_vector_store(chunks):
+    embeddings=abcd
+    vectorstore=FAISS.from_texts(texts=chunks,embedding=embeddings)
+    return vectorstore
+
+
 def main():
     load_dotenv()
     st.set_page_config(page_title="QnA Model with Multiple PDFs", page_icon=":books:")
@@ -38,6 +46,7 @@ def main():
                 #get text chunks
                 text_chunks=get_chunks(raw_text)
                 #create vector store
+                vector_store=get_vector_store(text_chunks)
 
 
 if __name__=='__main__':
