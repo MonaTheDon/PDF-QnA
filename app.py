@@ -46,7 +46,9 @@ def handle_userinput(user_question):
     st.session_state.chat_history=response['chat_history']
     for i,message in enumerate(st.session_state.chat_history):
         if i%2==0:
-            st.write(use)
+            st.write(message.content)
+        else:
+            st.write(response)
 
 
 
@@ -56,7 +58,8 @@ def main():
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
-
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history=None
     st.header("QnA Model with Multiple PDFs :books:")
     user_question=st.text_input("Ask a Question about your documents:")
     if user_question:
