@@ -41,7 +41,12 @@ def get_conversation_chain(vector_store):
     
     return conversation_chain
 
-
+def handle_userinput(user_question):
+    response=st.session_state.conversation({'question':user_question})
+    st.session_state.chat_history=response['chat_history']
+    for i,message in enumerate(st.session_state.chat_history):
+        if i%2==0:
+            st.write(use)
 
 
 
@@ -53,7 +58,9 @@ def main():
         st.session_state.conversation=None
 
     st.header("QnA Model with Multiple PDFs :books:")
-    st.text_input("Ask a Question about your documents:")
+    user_question=st.text_input("Ask a Question about your documents:")
+    if user_question:
+        handle_userinput(user_question)
 
     with st.sidebar:
         st.subheader("Your Documents")
