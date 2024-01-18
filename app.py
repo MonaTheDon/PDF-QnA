@@ -5,7 +5,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.llms import HuggingFaceHub
 
 def get_pdf_text(pdf_docs):
@@ -34,7 +34,8 @@ def get_vector_store(chunks):
     return vectorstore
 
 def get_conversation_chain(vector_store):
-    llm=HuggingFaceHub(repo_id='OpenAssistant/oasst-sft-1-pythia-12b')
+    # llm=HuggingFaceHub(repo_id='TencentARC/LLaMA-Pro-8B')
+    llm=HuggingFaceHub(repo_id="google/flan-t5-xxl")
     memory=ConversationBufferMemory(memory_key='chat_history',return_messages= True)
     conversation_chain=ConversationalRetrievalChain.from_llm(llm=llm,
         retriever=vector_store.as_retriever(),
@@ -49,19 +50,22 @@ def handle_userinput(user_question):
         if i%2==0:
             st.write(f"👤{message.content}")
         else:
-            st.write(f"🤖{response['answer']}")
+            ans=message.content
+            st.write(f"🤖{ans}")
+            st.divider()
+            
 
 
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="QnA Model with Multiple PDFs", page_icon=":books:")
+    st.set_page_config(page_title="QnA Model with PDF", page_icon=":books:")
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=None
-    st.header("QnA Model with Multiple PDFs :books:")
+    st.header("QnA Model with PDFs :books:")
     user_question=st.text_input("Ask a Question about your documents:")
     if user_question:
         handle_userinput(user_question)
