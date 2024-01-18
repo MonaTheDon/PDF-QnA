@@ -3,9 +3,27 @@ Ask Question on your uploaded PDF and get answers
 
 # Models
 ## 1. Langchain
+LangChain's flexible abstractions and extensive toolkit unlocks developers to build context-aware, reasoning LLM applications.
+
 ## 2. Google Flan T5
+As OpenAI API KEY was not provided, there was a struggle in finding good LLMs that could give a good result and so we reached **FLAN-TF-xxl LLM**. There are some considerations before using the program:
+
+a. Flan-T5 is a commercially available open-source LLM. It is a variant of the T5 (Text-To-Text Transfer Transformer) model developed by Google Research.
+
+b. It only allows 1024 tokens so the inputs need to be small otherwise will give error.
+
+c. It will give short word answers.
+
 Model Link: https://huggingface.co/google/flan-t5-xxl
-Note: It only allows 1024 tokens so when the tokens expire it will give error
 
+# SnapShots
+1. First Upload your Pdf and click on upload. Wait, as embeddings are made of your document and is stored in vectore store. 
+NOTE: It takes minimum 1.5-2min while starting on a new document (Depends on document's size)
+   ![image](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/59a3bde5-bf5b-49af-8675-9b1175cc490d)
 
+2. Then Add a Question and wait, as it answers. It will take a little time extra to answer first question.
+3. You can answer back to back as long as it doesn't exceed the limit (1024 tokens) as it remembers the context
+   ![WhatsApp Image 2024-01-18 at 20 22 42_20105c5a](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/c4e2d96a-3cdd-4035-b279-90e423fb1765)
+
+Link to use it will be provided soon
 
