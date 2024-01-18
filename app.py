@@ -68,7 +68,18 @@ def main():
     st.header("QnA with Your PDF 💬")
     user_question=st.text_input("Ask a Question about your documents:")
     if user_question:
-        handle_userinput(user_question)
+        try:
+            handle_userinput(user_question)
+        except ValueError as e:
+            #for errors by having more than 1024 tokens
+            if "Input validation error: `inputs` must have less than 1024 tokens" in str(e):
+                    st.write("Error: Input has too many tokens. Please provide a shorter input.")
+            else:
+                #for other value errors
+                st.write("Error: An unexpected error occurred.")
+        except Exception as e:
+            #for other errors
+            st.write("Error: An unexpected error occurred.")
 
     with st.sidebar:
         st.subheader("Your Documents")
