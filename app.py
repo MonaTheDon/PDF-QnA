@@ -34,8 +34,8 @@ def get_vector_store(chunks):
     return vectorstore
 
 def get_conversation_chain(vector_store):
-    # llm=HuggingFaceHub(repo_id='TencentARC/LLaMA-Pro-8B')
     llm=HuggingFaceHub(repo_id="google/flan-t5-xxl")
+    # llm=HuggingFaceHub(repo_id="OpenAssistant/oasst-sft-1-pythia-12b")
     memory=ConversationBufferMemory(memory_key='chat_history',return_messages= True)
     conversation_chain=ConversationalRetrievalChain.from_llm(llm=llm,
         retriever=vector_store.as_retriever(),
@@ -59,13 +59,13 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="QnA Model with PDF", page_icon=":books:")
+    st.set_page_config(page_title="QnA with Your PDF 💬", page_icon="📚")
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=None
-    st.header("QnA Model with PDFs :books:")
+    st.header("QnA with Your PDF 💬")
     user_question=st.text_input("Ask a Question about your documents:")
     if user_question:
         handle_userinput(user_question)
@@ -74,17 +74,22 @@ def main():
         st.subheader("Your Documents")
         pdf_docs=st.file_uploader("Upload Your PDFs here")
         if st.button("Upload"):
-            with st.spinner("Processing"):
-                #get pdf text
-                raw_text=get_pdf_text(pdf_docs)
-                #get text chunks
-                text_chunks=get_chunks(raw_text)
-                #create vector store
-                vector_store=get_vector_store(text_chunks)
-                
-                #create convo chain
-                st.session_state.conversation=get_conversation_chain(vector_store)
-            st.write("Uploaded Successfully!")
+            if not pdf_docs:
+                st.write("File Not Found, Upload a File")
+            elif not pdf_docs.name.endswith('.pdf'):
+                st.write("Upload a PDF File.")
+            else:
+                with st.spinner("Processing"):
+                    #get pdf text
+                    raw_text=get_pdf_text(pdf_docs)
+                    #get text chunks
+                    text_chunks=get_chunks(raw_text)
+                    #create vector store
+                    vector_store=get_vector_store(text_chunks)
+                    
+                    #create convo chain
+                    st.session_state.conversation=get_conversation_chain(vector_store)
+                st.write("Uploaded Successfully!")
 
 if __name__=='__main__':
     main()
