@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain.chat_models import ChatOpenAI
+from langchain.llms import HuggingFaceHub
 
 def get_pdf_text(pdf_docs):
     text=""
@@ -28,12 +28,13 @@ def get_chunks(raw_text):
     return chunks
 
 def get_vector_store(chunks):
-    embeddings=HuggingFaceInstructEmbeddings(model_name='hkunlp/instructor-xl')
+    # embeddings=HuggingFaceInstructEmbeddings(model_name='hkunlp/instructor-xl')
+    embeddings=HuggingFaceEmbeddings()
     vectorstore=FAISS.from_texts(texts=chunks,embedding=embeddings)
     return vectorstore
 
 def get_conversation_chain(vector_store):
-    llm=ChatOpenAI()
+    llm=HuggingFaceHub(repo_id='OpenAssistant/oasst-sft-1-pythia-12b')
     memory=ConversationBufferMemory(memory_key='chat_history',return_messages= True)
     conversation_chain=ConversationalRetrievalChain.from_llm(llm=llm,
         retriever=vector_store.as_retriever(),
@@ -46,9 +47,9 @@ def handle_userinput(user_question):
     st.session_state.chat_history=response['chat_history']
     for i,message in enumerate(st.session_state.chat_history):
         if i%2==0:
-            st.write(message.content)
+            st.write(f"👤{message.content}")
         else:
-            st.write(response)
+            st.write(f"🤖{response['answer']}")
 
 
 
@@ -76,9 +77,10 @@ def main():
                 text_chunks=get_chunks(raw_text)
                 #create vector store
                 vector_store=get_vector_store(text_chunks)
+                
                 #create convo chain
                 st.session_state.conversation=get_conversation_chain(vector_store)
-    
+            st.write("Uploaded Successfully!")
 
 if __name__=='__main__':
     main()
