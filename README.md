@@ -1,9 +1,13 @@
-# QnA on Your PDF using Langchain and HuggingFace API 💬
+# QnA on Your PDF 💬 using Langchain and HuggingFace API
 Ask Question on your uploaded PDF and get answers
 
 ## Models
 ## 1. Langchain
-LangChain's flexible abstractions and extensive toolkit unlocks developers to build context-aware, reasoning LLM applications.
+LangChain's flexible abstractions and extensive toolkit unlocks developers to build context-aware, reasoning LLM applications. It enables applications that:
+
+- **Are context-aware**: connect a language model to sources of context (prompt instructions, few shot examples, content to ground its response in, etc.
+  
+- **Reason**: rely on a language model to reason (about how to answer based on provided context, what actions to take, etc.)
 
 ## 2. Google Flan T5
 As OpenAI API KEY was not provided, there was a struggle in finding good LLMs that could give a good result and so we reached **FLAN-TF-xxl LLM**. There are some considerations before using the program:
