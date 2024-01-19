@@ -60,7 +60,7 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="QnA with Your PDF 💬", page_icon="📚")
+    st.set_page_config(page_title="QnA with Your PDF", page_icon="📚")
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
