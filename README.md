@@ -1,7 +1,7 @@
 # QnA on Your PDF 💬
 Ask Question on your uploaded PDF and get answers
 
-# Models
+## Models
 ## 1. Langchain
 LangChain's flexible abstractions and extensive toolkit unlocks developers to build context-aware, reasoning LLM applications.
 
@@ -16,7 +16,7 @@ c. It will give short word answers.
 
 Model Link: https://huggingface.co/google/flan-t5-xxl
 
-# SnapShots
+## Process
 1. First Upload your Pdf and click on upload. Wait, as embeddings are made of your document and is stored in vectore store. 
 NOTE: It takes minimum 1.5-2min while starting on a new document (Depends on document's size)
    ![image](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/59a3bde5-bf5b-49af-8675-9b1175cc490d)
@@ -25,5 +25,34 @@ NOTE: It takes minimum 1.5-2min while starting on a new document (Depends on doc
 3. You can answer back to back as long as it doesn't exceed the limit (1024 tokens) as it remembers the context
    ![WhatsApp Image 2024-01-18 at 20 22 42_20105c5a](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/c4e2d96a-3cdd-4035-b279-90e423fb1765)
 
-Link to use it will be provided soon
+## Features
+1. Only PDF Files can be submitted in this application.
+2. Memory Buffer is here, which means teh LLM remembers the context and so vague questions can be asked as well
+
+
+## How to Set the model LOCALLY
+----------------------------
+To install the application, please follow these steps:
+
+1. Clone the repository to your local machine.
+
+2. Install the required dependencies by running the following command:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Obtain an API key from HuggingFace and add it to the `.env` file in the project directory.
+```commandline
+HUGGINGFACEHUB_API_TOKEN=your_api_key
+```
+
+Note: The variable name should only be `HUGGINGFACEHUB_API_TOKEN`
+
+
+4. Run the `app.py` file using the Streamlit CLI. Execute the following command:
+   ```
+   streamlit run app.py
+   ```
+
+5. The application will launch in your default web browser, displaying the user interface.
 
