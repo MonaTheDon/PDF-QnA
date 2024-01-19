@@ -7,6 +7,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.llms import HuggingFaceHub
+from htmlTemplates import css, bot_template, user_template
 
 
 def get_pdf_text(pdf_docs):
@@ -49,10 +50,13 @@ def handle_userinput(user_question):
     st.session_state.chat_history=response['chat_history']
     for i,message in enumerate(st.session_state.chat_history):
         if i%2==0:
-            st.write(f"👤{message.content}")
+            # st.write(f"👤{message.content}")
+            ques=f"👤{message.content}"
+            st.write(user_template.replace("{{MSG}}", ques), unsafe_allow_html=True)
         else:
-            ans=message.content
-            st.write(f"🤖{ans}")
+            ans=f"🤖{message.content}"
+            # st.write(f"🤖{ans}")
+            st.write(bot_template.replace("{{MSG}}", ans), unsafe_allow_html=True)
             st.divider()
             
 
@@ -62,6 +66,8 @@ def main():
     load_dotenv()
     
     st.set_page_config(page_title="QnA with Your PDF", page_icon="📚",initial_sidebar_state="expanded")
+    st.write(css, unsafe_allow_html=True)
+
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
