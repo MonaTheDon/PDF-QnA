@@ -1,4 +1,4 @@
-# QnA on Your PDF 💬
+# QnA on Your PDF using Langchain and HuggingFace API 💬
 Ask Question on your uploaded PDF and get answers
 
 ## Models
