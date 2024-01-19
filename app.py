@@ -79,7 +79,7 @@ def main():
     #     st.warning("Please click on upload PDF and wait for the confirmation message")
     if user_question:
         try:
-            with st.spinner('Please Wait'):
+            with st.spinner('Answering'):
                 handle_userinput(user_question)
         except ValueError as e:
             #for errors by having more than 1024 tokens
