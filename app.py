@@ -8,6 +8,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.llms import HuggingFaceHub
 
+
 def get_pdf_text(pdf_docs):
     text=""
     pdf_reader=PdfReader(pdf_docs)
