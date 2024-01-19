@@ -41,7 +41,7 @@ def get_conversation_chain(vector_store):
     conversation_chain=ConversationalRetrievalChain.from_llm(llm=llm,
         retriever=vector_store.as_retriever(),
         memory=memory)
-    
+ 
     return conversation_chain
 
 def handle_userinput(user_question):
@@ -60,14 +60,17 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="QnA with Your PDF", page_icon="📚")
+    
+    st.set_page_config(page_title="QnA with Your PDF", page_icon="📚",initial_sidebar_state="expanded")
     #if app runs itself then convo is initialized it will not re-initialize it, so we can use it anytime in the program (the var is persistent)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=None
-    st.header("QnA with Your PDF 💬")
+    st.title("QnA with Your PDF 💬")
     user_question=st.text_input("Ask a Question about your documents:")
+    # if user_question and flag==False:
+    #     st.warning("Please click on upload PDF and wait for the confirmation message")
     if user_question:
         try:
             with st.spinner('Please Wait'):
@@ -75,16 +78,17 @@ def main():
         except ValueError as e:
             #for errors by having more than 1024 tokens
             if "Input validation error: `inputs` must have less than 1024 tokens" in str(e):
-                    st.warning("Error: Input has too many tokens. Please provide a shorter input.")
+                    st.warning("Error: Input has too many tokens. Please provide a shorter input or Reload")
             else:
                 #for other value errors
-                st.error("Error: An unexpected error occurred.")
+                st.error("Error: An unexpected Value error occurred.")
         except Exception as e:
             #for other errors
-            st.error("Error: An unexpected error occurred.")
+            st.error("Error: An unexpected error occurred. Kindly Reload")
 
     with st.sidebar:
         st.subheader("Your Documents")
+        
         pdf_docs=st.file_uploader("Upload Your PDFs here")
         if st.button("Upload"):
             if not pdf_docs:
@@ -102,6 +106,7 @@ def main():
                     
                     #create convo chain
                     st.session_state.conversation=get_conversation_chain(vector_store)
+                    
                 st.success("Uploaded Successfully!")
 
 if __name__=='__main__':
