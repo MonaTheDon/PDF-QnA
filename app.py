@@ -69,26 +69,27 @@ def main():
     user_question=st.text_input("Ask a Question about your documents:")
     if user_question:
         try:
-            handle_userinput(user_question)
+            with st.spinner('Please Wait'):
+                handle_userinput(user_question)
         except ValueError as e:
             #for errors by having more than 1024 tokens
             if "Input validation error: `inputs` must have less than 1024 tokens" in str(e):
-                    st.write("Error: Input has too many tokens. Please provide a shorter input.")
+                    st.warning("Error: Input has too many tokens. Please provide a shorter input.")
             else:
                 #for other value errors
-                st.write("Error: An unexpected error occurred.")
+                st.error("Error: An unexpected error occurred.")
         except Exception as e:
             #for other errors
-            st.write("Error: An unexpected error occurred.")
+            st.error("Error: An unexpected error occurred.")
 
     with st.sidebar:
         st.subheader("Your Documents")
         pdf_docs=st.file_uploader("Upload Your PDFs here")
         if st.button("Upload"):
             if not pdf_docs:
-                st.write("File Not Found, Upload a File")
+                st.warning("File Not Found, Upload a File")
             elif not pdf_docs.name.endswith('.pdf'):
-                st.write("Upload a PDF File.")
+                st.warning("Upload a PDF File.")
             else:
                 with st.spinner("Processing"):
                     #get pdf text
@@ -100,7 +101,7 @@ def main():
                     
                     #create convo chain
                     st.session_state.conversation=get_conversation_chain(vector_store)
-                st.write("Uploaded Successfully!")
+                st.success("Uploaded Successfully!")
 
 if __name__=='__main__':
     main()
