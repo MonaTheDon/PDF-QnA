@@ -27,7 +27,8 @@ NOTE: It takes minimum 1.5-2min while starting on a new document (Depends on doc
 
 2. Then Add a Question and wait, as it answers. It will take a little time extra to answer first question.
 3. You can answer back to back as long as it doesn't exceed the limit (1024 tokens) as it remembers the context
-   ![WhatsApp Image 2024-01-18 at 20 22 42_20105c5a](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/c4e2d96a-3cdd-4035-b279-90e423fb1765)
+   ![image](https://github.com/MonaTheDon/PDF-QnA/assets/104318895/5f4c07f2-dfda-4c52-9a64-4dbb3b476e03)
+
 
 ## Features
 1. Only PDF Files can be submitted in this application.
