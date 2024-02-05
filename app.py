@@ -6,7 +6,7 @@ from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
-from langchain.llms import HuggingFaceHub
+from langchain_community.llms import HuggingFaceHub
 from htmlTemplates import css, bot_template, user_template
 
 
